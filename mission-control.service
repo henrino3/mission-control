@@ -1,0 +1,16 @@
+[Unit]
+Description=Mission Control - Kanban Board
+After=network.target
+
+[Service]
+Type=simple
+User=henrymascot
+WorkingDirectory=/home/henrymascot/clawd/projects/mission-control
+ExecStart=/usr/bin/node /home/henrymascot/clawd/projects/mission-control/server.js
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
