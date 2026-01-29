@@ -1132,6 +1132,91 @@
       padding: 8px 12px;
       font-size: 12px;
     }
+
+    .subtasks-section {
+      margin-bottom: 24px;
+    }
+    .subtasks-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .subtasks-progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .subtasks-progress-bar {
+      width: 140px;
+      height: 6px;
+      background: #1f1f1f;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid #222;
+    }
+    .subtasks-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #5b5eef;
+      transition: width 0.2s ease;
+    }
+    .subtasks-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .subtask-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #141414;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .subtask-item.completed {
+      opacity: 0.6;
+    }
+    .subtask-item.completed .subtask-content {
+      text-decoration: line-through;
+      color: #9ca3af;
+    }
+    .subtask-checkbox {
+      accent-color: #5b5eef;
+    }
+    .subtask-content {
+      flex: 1;
+      font-size: 14px;
+      color: #e5e7eb;
+    }
+    .subtask-delete {
+      background: transparent;
+      border: none;
+      color: #555;
+      font-size: 16px;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .subtask-delete:hover {
+      color: #ef4444;
+    }
+    .subtasks-add {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .subtasks-add input {
+      flex: 1;
+    }
+    .subtask-empty {
+      color: #6b7280;
+      font-size: 13px;
+      padding: 6px 4px;
+    }
     
     /* ========== MOBILE RESPONSIVE ========== */
     
@@ -1864,6 +1949,24 @@
           </div>
         </div>
       </div>
+
+      <!-- Subtasks -->
+      <div class="subtasks-section">
+        <div class="subtasks-header">
+          <div class="meta-label">Subtasks</div>
+          <div class="subtasks-progress">
+            <div class="subtasks-progress-bar">
+              <div class="subtasks-progress-fill" id="subtasksProgressFill"></div>
+            </div>
+            <span id="subtasksProgress">0/0 complete</span>
+          </div>
+        </div>
+        <div id="subtasksList" class="subtasks-list"></div>
+        <div class="subtasks-add">
+          <input type="text" id="subtaskInput" class="meta-input" placeholder="Add a subtask..." />
+          <button class="filter-btn secondary" style="padding: 6px 12px; font-size: 12px;" onclick="addSubtask()">Add</button>
+        </div>
+      </div>
       
       <!-- Attachments -->
       <div style="margin-bottom: 20px;">
@@ -1946,6 +2049,7 @@
     let roadmaps = [];
     let recentActivity = [];
     let currentTaskId = null;
+    let currentSubtasks = [];
     let currentBoard = 'ops';
     let currentDetailTab = 'activity';
     let currentActivityView = 'human';
@@ -2787,6 +2891,7 @@
       renderDetailProjects(task);
       renderDependencies(task);
       renderAttachments(task);
+      loadSubtasks(taskId);
       setActivityView(currentActivityView);
       setDetailTab('activity');
       loadComments(taskId);
@@ -2797,6 +2902,9 @@
       document.getElementById('taskDetailOverlay').classList.remove('active');
       document.getElementById('noteInput').value = '';
       document.getElementById('commentInput').value = '';
+      document.getElementById('subtaskInput').value = '';
+      currentSubtasks = [];
+      renderSubtasks();
       currentTaskId = null;
     }
 
@@ -2901,6 +3009,90 @@
         link.style.color = '#60a5fa';
         container.appendChild(link);
       });
+    }
+
+    async function loadSubtasks(taskId) {
+      if (!taskId) return;
+      try {
+        currentSubtasks = await apiFetch(`/api/tasks/${taskId}/subtasks`);
+      } catch (err) {
+        console.error('Failed to load subtasks', err);
+        currentSubtasks = [];
+      }
+      renderSubtasks();
+    }
+
+    function renderSubtasks() {
+      const list = document.getElementById('subtasksList');
+      const progressText = document.getElementById('subtasksProgress');
+      const progressFill = document.getElementById('subtasksProgressFill');
+      list.innerHTML = '';
+
+      const total = currentSubtasks.length;
+      const completed = currentSubtasks.filter(s => s.completed).length;
+      const percent = total ? Math.round((completed / total) * 100) : 0;
+
+      progressText.textContent = total ? `${completed}/${total} complete` : '0/0 complete';
+      progressFill.style.width = `${percent}%`;
+
+      if (!total) {
+        list.innerHTML = '<div class="subtask-empty">No subtasks yet</div>';
+        return;
+      }
+
+      currentSubtasks.forEach(subtask => {
+        const row = document.createElement('div');
+        row.className = `subtask-item ${subtask.completed ? 'completed' : ''}`.trim();
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'subtask-checkbox';
+        checkbox.checked = !!subtask.completed;
+        checkbox.addEventListener('change', () => toggleSubtask(subtask.id, checkbox.checked));
+
+        const content = document.createElement('span');
+        content.className = 'subtask-content';
+        content.textContent = subtask.content || '';
+
+        const del = document.createElement('button');
+        del.className = 'subtask-delete';
+        del.textContent = '×';
+        del.title = 'Delete subtask';
+        del.addEventListener('click', () => deleteSubtask(subtask.id));
+
+        row.appendChild(checkbox);
+        row.appendChild(content);
+        row.appendChild(del);
+        list.appendChild(row);
+      });
+    }
+
+    async function addSubtask() {
+      if (!currentTaskId) return;
+      const input = document.getElementById('subtaskInput');
+      const content = input.value.trim();
+      if (!content) return;
+      await apiFetch(`/api/tasks/${currentTaskId}/subtasks`, {
+        method: 'POST',
+        body: JSON.stringify({ content, session_id: sessionId })
+      });
+      input.value = '';
+      await loadSubtasks(currentTaskId);
+    }
+
+    async function toggleSubtask(id, completed) {
+      if (!id) return;
+      await apiFetch(`/api/subtasks/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ completed, session_id: sessionId })
+      });
+      await loadSubtasks(currentTaskId);
+    }
+
+    async function deleteSubtask(id) {
+      if (!id) return;
+      await apiFetch(`/api/subtasks/${id}`, { method: 'DELETE' });
+      await loadSubtasks(currentTaskId);
     }
 
     async function addAttachment() {
@@ -3277,6 +3469,12 @@
     document.getElementById('detailTimeSpent').addEventListener('change', (e) => saveSimpleField('time_spent', e.target.value ? Number(e.target.value) : null));
     document.getElementById('detailBlocked').addEventListener('change', (e) => saveSimpleField('blocked', e.target.checked));
     document.getElementById('detailBlockerReason').addEventListener('blur', (e) => saveSimpleField('blocker_reason', e.target.value));
+    document.getElementById('subtaskInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addSubtask();
+      }
+    });
     document.getElementById('noteInput').addEventListener('keydown', addNoteShortcut);
     document.getElementById('commentInput').addEventListener('keydown', addCommentShortcut);
 

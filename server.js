@@ -218,6 +218,16 @@ db.exec(`
     FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
   );
 
+  CREATE TABLE IF NOT EXISTS subtasks (
+    id INTEGER PRIMARY KEY,
+    task_id INTEGER,
+    content TEXT,
+    completed INTEGER DEFAULT 0,
+    completed_by TEXT,
+    completed_at TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+  );
+
   CREATE TABLE IF NOT EXISTS roadmaps (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -1004,6 +1014,68 @@ app.post('/api/tasks/:id/attachments', requireAuth, (req, res) => {
   const result = db.prepare('INSERT INTO attachments (task_id, name, path, type) VALUES (?, ?, ?, ?)').run(req.params.id, name || attachmentPath, attachmentPath, type);
   logActivity(req.params.id, 'attached', currentUser(req).username || 'Henry', attachmentPath);
   res.json(db.prepare('SELECT * FROM attachments WHERE id = ?').get(result.lastInsertRowid));
+});
+
+// Subtasks
+app.get('/api/tasks/:id/subtasks', requireAuth, (req, res) => {
+  const subtasks = db.prepare('SELECT * FROM subtasks WHERE task_id = ? ORDER BY created_at ASC').all(req.params.id);
+  res.json(subtasks);
+});
+
+app.post('/api/tasks/:id/subtasks', requireAuth, (req, res) => {
+  const { content, user = currentUser(req).username || 'Henry', session_id = null } = req.body;
+  if (!content) return res.status(400).json({ error: 'Subtask content required' });
+  const result = db.prepare('INSERT INTO subtasks (task_id, content) VALUES (?, ?)').run(req.params.id, content);
+  logActivity(req.params.id, 'subtask added', user, content.slice(0, 120), 'human', session_id);
+  res.json(db.prepare('SELECT * FROM subtasks WHERE id = ?').get(result.lastInsertRowid));
+});
+
+app.patch('/api/subtasks/:id', requireAuth, (req, res) => {
+  const { content, completed, user = currentUser(req).username || 'Henry', session_id = null } = req.body;
+  const subtask = db.prepare('SELECT * FROM subtasks WHERE id = ?').get(req.params.id);
+  if (!subtask) return res.status(404).json({ error: 'Subtask not found' });
+
+  const updates = [];
+  const values = [];
+
+  if (content !== undefined) {
+    updates.push('content = ?');
+    values.push(content);
+  }
+
+  if (completed !== undefined) {
+    updates.push('completed = ?');
+    values.push(completed ? 1 : 0);
+    if (completed) {
+      updates.push('completed_by = ?');
+      values.push(user);
+      updates.push('completed_at = ?');
+      values.push(new Date().toISOString());
+      logActivity(subtask.task_id, 'subtask completed', user, subtask.content.slice(0, 120), 'human', session_id);
+    } else {
+      updates.push('completed_by = ?');
+      values.push(null);
+      updates.push('completed_at = ?');
+      values.push(null);
+      logActivity(subtask.task_id, 'subtask reopened', user, subtask.content.slice(0, 120), 'human', session_id);
+    }
+  }
+
+  if (!updates.length) {
+    return res.json(subtask);
+  }
+
+  values.push(req.params.id);
+  db.prepare(`UPDATE subtasks SET ${updates.join(', ')} WHERE id = ?`).run(...values);
+  res.json(db.prepare('SELECT * FROM subtasks WHERE id = ?').get(req.params.id));
+});
+
+app.delete('/api/subtasks/:id', requireAuth, (req, res) => {
+  const subtask = db.prepare('SELECT * FROM subtasks WHERE id = ?').get(req.params.id);
+  if (!subtask) return res.status(404).json({ error: 'Subtask not found' });
+  db.prepare('DELETE FROM subtasks WHERE id = ?').run(req.params.id);
+  logActivity(subtask.task_id, 'subtask deleted', currentUser(req).username || 'Henry', subtask.content.slice(0, 120));
+  res.json({ success: true });
 });
 
 // Dependencies
