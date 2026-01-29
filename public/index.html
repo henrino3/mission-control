@@ -1222,14 +1222,14 @@
         max-height: none;
       }
       
-      /* Board columns - scroll horizontally, tasks scroll vertically */
+      /* Board columns - almost full width on mobile */
       .board {
-        grid-template-columns: repeat(5, 260px);
-        padding: 10px 16px 20px;
-        gap: 12px;
+        grid-template-columns: repeat(5, 90vw);
+        padding: 10px 8px 20px;
+        gap: 10px;
       }
       .board.show-archive {
-        grid-template-columns: repeat(6, 260px);
+        grid-template-columns: repeat(6, 90vw);
       }
       .column {
         min-height: auto;
