@@ -372,6 +372,21 @@
       color: #888;
       max-height: 280px;
       overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #333 transparent;
+    }
+    .agent-activity-log::-webkit-scrollbar {
+      width: 6px;
+    }
+    .agent-activity-log::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .agent-activity-log::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 3px;
+    }
+    .agent-activity-log::-webkit-scrollbar-thumb:hover {
+      background: #444;
     }
     .agent-log-entry {
       padding: 8px 0;
@@ -392,7 +407,7 @@
       background: #0d0d0d;
       border: 1px solid #222;
       border-radius: 12px;
-      padding: 16px;
+      padding: 12px 6px;
       min-height: 400px;
       max-height: 70vh;
       min-width: 280px;
@@ -403,6 +418,24 @@
       flex: 1;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: #333 transparent;
+    }
+    .column .tasks::-webkit-scrollbar {
+      width: 6px;
+    }
+    .column .tasks::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .column .tasks::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 3px;
+    }
+    .column .tasks::-webkit-scrollbar-thumb:hover {
+      background: #444;
+    }
+    .task {
+      margin: 0 2px 10px 2px;
     }
     
     /* Column headers inside each column */
@@ -1202,24 +1235,38 @@
         font-size: 13px;
       }
       
-      /* Agents - vertical stack with scroll */
+      /* Agents - vertical stack with scroll, fit screen */
       .agents-board {
-        padding: 16px;
+        padding: 12px;
+        overflow-x: hidden;
       }
       .agents-grid {
         grid-template-columns: 1fr;
         gap: 16px;
+        width: 100%;
       }
       .agent-lane {
         min-height: auto;
         max-height: 50vh;
         display: flex;
         flex-direction: column;
+        width: 100%;
+        overflow-x: hidden;
+      }
+      .agent-current-task {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
       }
       .agent-activity-log {
         flex: 1;
         overflow-y: auto;
+        overflow-x: hidden;
         max-height: none;
+        word-wrap: break-word;
+      }
+      .agent-log-entry {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
       }
       
       /* Board columns - almost full width on mobile */
@@ -3257,6 +3304,7 @@
       await loadRecentActivity();
       setInterval(loadTasks, 5000);
       setInterval(loadRecentActivity, 8000);
+      setInterval(refreshAgentActivity, 30000); // Auto-refresh agents every 30s
     }
 
     initSettings();
