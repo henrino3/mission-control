@@ -596,13 +596,6 @@
       border-bottom: 1px solid #111;
       background: linear-gradient(90deg, rgba(42,42,63,0.45), rgba(16,16,24,0.65));
     }
-    .insights-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 12px;
-      transition: all 0.3s ease;
-      overflow: hidden;
-    }
     .panel {
       background: #0f0f12;
       border: 1px solid #1f2937;
@@ -1155,35 +1148,23 @@
         display: none;
       }
       
-      /* Board - horizontal scroll, cards scroll vertically inside columns */
+      /* Board - horizontal scroll */
       .board {
-        grid-template-columns: repeat(5, 260px);
+        grid-template-columns: repeat(5, 280px);
         padding: 10px 16px 20px;
         gap: 12px;
         -webkit-overflow-scrolling: touch;
       }
       .board.show-archive {
-        grid-template-columns: repeat(6, 260px);
-      }
-      .column {
-        min-height: 300px;
-        max-height: 70vh;
-        display: flex;
-        flex-direction: column;
-      }
-      .column .tasks {
-        flex: 1;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        max-height: calc(70vh - 20px);
+        grid-template-columns: repeat(6, 280px);
       }
       .columns-header {
-        grid-template-columns: repeat(5, 260px);
-        padding: 12px 16px 8px;
+        grid-template-columns: repeat(5, 280px);
+        padding: 16px 16px 8px;
         gap: 12px;
       }
       .columns-header.show-archive {
-        grid-template-columns: repeat(6, 260px);
+        grid-template-columns: repeat(6, 280px);
       }
       
       /* Cards */
@@ -1270,22 +1251,29 @@
         font-size: 11px;
       }
       
-      /* Board - smaller columns on small screens */
+      /* Board - single column option on very small screens */
       .board {
-        grid-template-columns: repeat(5, 240px);
+        grid-template-columns: repeat(5, 260px);
         padding: 8px 12px 16px;
         gap: 10px;
       }
       .board.show-archive {
-        grid-template-columns: repeat(6, 240px);
+        grid-template-columns: repeat(6, 260px);
       }
       .columns-header {
-        grid-template-columns: repeat(5, 240px);
-        padding: 10px 12px 6px;
+        grid-template-columns: repeat(5, 260px);
+        padding: 12px 12px 6px;
         gap: 10px;
       }
       .columns-header.show-archive {
-        grid-template-columns: repeat(6, 240px);
+        grid-template-columns: repeat(6, 260px);
+      }
+      .column-header {
+        font-size: 12px;
+      }
+      .column-count {
+        font-size: 11px;
+        padding: 2px 6px;
       }
       
       /* Cards */
@@ -1395,134 +1383,6 @@
         min-height: 44px;
       }
     }
-    
-    /* ========== ADDITIONAL MOBILE STYLES ========== */
-    
-    /* Summary bar mobile */
-    @media (max-width: 768px) {
-      .summary-bar {
-        padding: 10px 16px;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-      }
-      .pill {
-        font-size: 11px;
-        padding: 6px 10px;
-      }
-      
-      /* Insights row - stack on mobile */
-      .insights-row {
-        grid-template-columns: 1fr;
-      }
-      .panel {
-        padding: 12px;
-      }
-      .panel h4 {
-        font-size: 11px;
-      }
-      
-      /* Task detail - full width on mobile */
-      #taskDetailOverlay .task-detail {
-        width: 100% !important;
-      }
-      .task-detail-header {
-        padding: 16px;
-      }
-      .task-detail-header > div:first-child {
-        flex-direction: column;
-        gap: 12px;
-      }
-      .task-detail-header > div:first-child > input {
-        margin-right: 0 !important;
-      }
-      .task-detail-header > div:first-child > div {
-        flex-wrap: wrap;
-        justify-content: flex-start;
-      }
-      /* Core fields - 2 columns on mobile */
-      .task-detail-header > div:nth-child(2) {
-        grid-template-columns: repeat(2, 1fr) !important;
-      }
-      /* Time tracking row */
-      .task-detail-header > div:nth-child(3) {
-        grid-template-columns: 1fr !important;
-        gap: 12px;
-      }
-      .task-detail-scroll {
-        padding: 16px;
-      }
-      .detail-title-input {
-        font-size: 18px;
-      }
-      
-      /* Projects/Dependencies - stack on mobile */
-      .task-detail-scroll > div:nth-child(2) {
-        grid-template-columns: 1fr !important;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .summary-bar {
-        padding: 8px 12px;
-        grid-template-columns: 1fr 1fr;
-      }
-      .pill {
-        font-size: 10px;
-        padding: 5px 8px;
-      }
-      
-      /* Header tweaks */
-      .header-left {
-        flex: 1;
-      }
-      .board-tabs {
-        display: flex;
-        gap: 4px;
-      }
-      .board-tab {
-        padding: 4px 8px;
-        font-size: 10px;
-      }
-      
-      /* Modal - full screen on mobile */
-      .modal-overlay .modal {
-        width: 100%;
-        max-width: 100%;
-        height: 100%;
-        max-height: 100%;
-        margin: 0;
-        border-radius: 0;
-        overflow-y: auto;
-      }
-      .modal h3 {
-        font-size: 16px;
-      }
-      .modal input, .modal textarea, .modal select {
-        font-size: 16px; /* Prevents zoom on iOS */
-      }
-      
-      /* Task detail buttons */
-      #taskDetailOverlay .filter-btn {
-        font-size: 11px;
-        padding: 6px 10px;
-      }
-      .close-btn {
-        font-size: 24px;
-      }
-      
-      /* Comments and notes */
-      .comment-item {
-        padding: 10px;
-      }
-      .comment-body {
-        font-size: 12px;
-      }
-      .activity-log-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -1589,7 +1449,7 @@
         <span id="insightsToggleIcon">▼</span> Insights
       </button>
     </div>
-    <div class="insights-row" id="insightsRow">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; transition: all 0.3s ease; overflow: hidden;" id="insightsRow">
       <div class="panel" id="dueTodayPanel">
         <h4>Due today</h4>
         <div id="dueTodayList" style="font-size: 13px; color: #9ca3af;">No tasks due today.</div>
