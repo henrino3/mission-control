@@ -1155,23 +1155,50 @@
         display: none;
       }
       
-      /* Board - horizontal scroll */
+      /* Board - vertical stack on mobile */
       .board {
-        grid-template-columns: repeat(5, 280px);
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: none !important;
         padding: 10px 16px 20px;
-        gap: 12px;
-        -webkit-overflow-scrolling: touch;
+        gap: 16px;
+        overflow-x: hidden;
+        overflow-y: auto;
       }
       .board.show-archive {
-        grid-template-columns: repeat(6, 280px);
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: none !important;
+      }
+      .column {
+        min-height: auto;
+        min-width: 100% !important;
+        width: 100%;
+        max-height: 400px;
+        overflow-y: auto;
+        background: #0a0a0a;
+        border: 1px solid #222;
+        border-radius: 12px;
+        padding: 12px;
+      }
+      .column .tasks {
+        max-height: 340px;
+        overflow-y: auto;
       }
       .columns-header {
-        grid-template-columns: repeat(5, 280px);
-        padding: 16px 16px 8px;
-        gap: 12px;
+        display: none !important;
       }
-      .columns-header.show-archive {
-        grid-template-columns: repeat(6, 280px);
+      /* Show column name inside each column on mobile */
+      .column::before {
+        content: attr(data-column);
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #888;
+        text-transform: capitalize;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #222;
       }
       
       /* Cards */
@@ -1258,29 +1285,17 @@
         font-size: 11px;
       }
       
-      /* Board - single column option on very small screens */
+      /* Board - vertical on small screens */
       .board {
-        grid-template-columns: repeat(5, 260px);
         padding: 8px 12px 16px;
-        gap: 10px;
+        gap: 12px;
       }
-      .board.show-archive {
-        grid-template-columns: repeat(6, 260px);
+      .column {
+        max-height: 350px;
+        padding: 10px;
       }
-      .columns-header {
-        grid-template-columns: repeat(5, 260px);
-        padding: 12px 12px 6px;
-        gap: 10px;
-      }
-      .columns-header.show-archive {
-        grid-template-columns: repeat(6, 260px);
-      }
-      .column-header {
-        font-size: 12px;
-      }
-      .column-count {
-        font-size: 11px;
-        padding: 2px 6px;
+      .column .tasks {
+        max-height: 300px;
       }
       
       /* Cards */
