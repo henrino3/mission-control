@@ -92,6 +92,7 @@ When clicking any card, a **2/3 width detail panel slides in from the right** (A
 | **Projects** | Multi-select tags/themes (can belong to multiple) |
 | **Attachments** | Link files (local paths or URLs) |
 | **Description** | Markdown text area |
+| **Subtasks/Instructions** | Checklist of extra instructions for agents |
 
 **Projects/Themes Examples:**
 - Soteria AI
@@ -119,7 +120,55 @@ When clicking any card, a **2/3 width detail panel slides in from the right** (A
 │  ┌───────────────────────────────────────────────┐ │
 │  │ What is this task about?                      │ │
 │  └───────────────────────────────────────────────┘ │
+│                                                     │
+│  Extra Instructions / Subtasks                      │
+│  ┌───────────────────────────────────────────────┐ │
+│  │ ☐ Search competitor pricing models            │ │
+│  │ ☐ Document findings in spreadsheet            │ │
+│  │ ☐ Create comparison chart                     │ │
+│  │ ☐ Add new instruction...                      │ │
+│  └───────────────────────────────────────────────┘ │
 └─────────────────────────────────────────────────────┘
+```
+
+---
+
+### Subtasks / Extra Instructions
+
+**Purpose:** Allow Henry to give agents specific, trackable sub-instructions within a task.
+
+**How it works:**
+1. Henry adds subtasks as checklist items in the task detail
+2. Agent sees these as actionable items they can check off
+3. As agent completes each item, they tick the checkbox
+4. Progress is tracked and visible to Henry
+
+**UI Component:**
+- Input field with "Add" button (like the current "Add Note" UI)
+- Checkboxes for each subtask
+- Edit/delete on hover
+- Visual indicator of completion %
+
+**Database:**
+```sql
+CREATE TABLE subtasks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    task_id INTEGER NOT NULL,
+    content TEXT NOT NULL,
+    completed INTEGER DEFAULT 0,
+    completed_by TEXT,
+    completed_at DATETIME,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
+);
+```
+
+**API:**
+```
+GET    /api/tasks/:id/subtasks     - List all subtasks
+POST   /api/tasks/:id/subtasks     - Create subtask
+PATCH  /api/subtasks/:id           - Update (mark complete/incomplete)
+DELETE /api/subtasks/:id           - Delete subtask
 ```
 
 - Created by / Created at (shown at bottom)
@@ -383,6 +432,18 @@ CREATE TABLE attachments (
     created_at TEXT,
     FOREIGN KEY (task_id) REFERENCES tasks(id)
 );
+
+-- Subtasks / Extra Instructions (NEW)
+CREATE TABLE subtasks (
+    id INTEGER PRIMARY KEY,
+    task_id INTEGER NOT NULL,
+    content TEXT NOT NULL,
+    completed INTEGER DEFAULT 0,
+    completed_by TEXT,
+    completed_at TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
+);
 ```
 
 ---
@@ -527,24 +588,24 @@ GET    /api/sessions/:id/tasks       - Tasks worked on in a session
 - [x] Archive toggle: on/off (hides Archive column completely)
 - [x] Persist settings in localStorage
 
-### Phase 1.7: UI Polish ⬜ TODO
-- [ ] Move Ops/Strategic tabs to same row as "Mission Control" title
-- [ ] Align tabs to the right, near settings gear icon
-- [ ] Clean up header layout for better visual hierarchy
+### Phase 1.7: UI Polish ⬜ PARTIALLY DONE
+- [x] Move Ops/Strategic tabs to same row as "Mission Control" title
+- [x] Align tabs to the right, near settings gear icon
+- [x] Clean up header layout for better visual hierarchy
 - [ ] Fix cards to show assignee (not created_by) - cards currently show who created the task instead of who should do it
-- [ ] Remove activity from Kanban cards (keep cards minimal)
+- [x] Remove activity from Kanban cards (keep cards minimal)
 
-### Phase 1.8: Enhanced New Task Modal ⬜ PRIORITY
-**Current state:** Only has task name, description, recurring checkbox
-**Needed:** Full task creation with all key fields upfront
+### Phase 1.8: Enhanced New Task Modal ✅ DONE
+**Current state:** Full task creation with all key fields
 
-**Add to New Task modal:**
-- [ ] **Assignee dropdown** - Ada / Spock / Scotty / Henry / Unassigned (default: Unassigned)
-- [ ] **Due date picker** - Calendar widget (optional)
-- [ ] **Priority dropdown** - P0 / P1 / P2 / P3 (optional, default: P2)
-- [ ] **Projects multi-select** - Tag with multiple projects (optional)
-- [ ] **Column dropdown** - Where to create it: Backlog (default) / Todo / Doing
-- [ ] Keep existing: Task name (required), Description (optional), Recurring checkbox
+**Implemented:**
+- [x] **Assignee dropdown** - Ada / Spock / Scotty / Henry / Unassigned (default: Unassigned)
+- [x] **Due date picker** - Calendar widget (optional)
+- [x] **Priority dropdown** - P0 / P1 / P2 / P3 (default: P2)
+- [x] **Column dropdown** - Where to create it: Backlog (default) / Todo / Doing / Review
+- [x] **Model override** - Per-task model selection
+- [x] **Projects multi-select** - Tag with multiple projects (optional)
+- [x] Keep existing: Task name (required), Description (optional), Recurring checkbox
 
 **Layout:**
 ```
@@ -583,6 +644,25 @@ GET    /api/sessions/:id/tasks       - Tasks worked on in a session
 - Priority: P2
 - Due date: None
 - Projects: None
+
+### Phase 1.9: Subtasks / Extra Instructions ⬜ PRIORITY
+**Purpose:** Allow Henry to give agents specific, trackable sub-instructions
+
+**UI:**
+- [ ] Replace "Add Note" with "Add Subtask/Instruction"
+- [ ] Checkboxes for each item
+- [ ] Visual progress indicator
+- [ ] Edit/delete on hover
+
+**Backend:**
+- [ ] Create `subtasks` table in database
+- [ ] API endpoints: GET/POST/PATCH/DELETE /api/subtasks
+- [ ] Link subtasks to task detail view
+
+**Agent workflow:**
+- [ ] Agents see subtasks as actionable checklist
+- [ ] Can tick off items as completed
+- [ ] Progress tracked and visible to Henry
 
 ### Phase 2: Activity Logging ✅ DONE
 - [x] Two-type activity system (human / technical)
