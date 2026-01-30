@@ -1394,6 +1394,172 @@
       .modal-header h3 {
         font-size: 16px;
       }
+      
+      /* Task Detail Panel - Full Screen on Mobile */
+      #taskDetailOverlay .task-detail {
+        width: 100% !important;
+        max-width: 100% !important;
+        border-left: none !important;
+        border-radius: 0 !important;
+      }
+      .task-detail-header {
+        padding: 12px !important;
+        position: relative;
+        background: #111;
+        flex-shrink: 0 !important;
+      }
+      /* Move close button to float over title on mobile */
+      .task-detail-header .close-btn {
+        position: absolute !important;
+        top: 16px !important;
+        right: 12px !important;
+        font-size: 28px !important;
+        z-index: 20;
+        padding: 4px;
+        margin: 0 !important;
+        background: rgba(0,0,0,0.5) !important;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      /* Header top row with title and action buttons */
+      .task-detail-header > div:first-child {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        margin-bottom: 12px !important;
+      }
+      .detail-title-input {
+        font-size: 16px !important;
+        width: 100% !important;
+        margin-right: 0 !important;
+        padding-right: 40px !important;
+      }
+      /* Action buttons - wrap on their own row */
+      .task-detail-header > div:first-child > div {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+      }
+      .task-detail-header .filter-btn {
+        padding: 6px 10px !important;
+        font-size: 11px !important;
+      }
+      /* Row 1: Core fields - 2 columns on mobile, Model spans full width */
+      .task-detail-header > div:nth-child(2) {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+        margin-bottom: 12px !important;
+      }
+      .task-detail-header > div:nth-child(2) > div:nth-child(5) {
+        grid-column: span 2 !important;
+      }
+      /* Hide Model label on mobile - just show dropdown */
+      .task-detail-header > div:nth-child(2) > div:nth-child(5) .meta-label {
+        display: none !important;
+      }
+      .task-detail-header > div:nth-child(2) > div:nth-child(5) select {
+        margin-top: 0 !important;
+      }
+      /* Row 2: Time tracking - stack vertically */
+      .task-detail-header > div:nth-child(3) {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+        margin-bottom: 12px !important;
+      }
+      /* Make blocked section full width */
+      .task-detail-header > div:nth-child(3) > div:last-child {
+        grid-column: span 2 !important;
+      }
+      .meta-label {
+        font-size: 10px !important;
+      }
+      .meta-select, .meta-input {
+        font-size: 12px !important;
+        padding: 6px 8px !important;
+      }
+      /* Row 3: Metadata - wrap */
+      .task-detail-header > div:nth-child(4) {
+        flex-wrap: wrap !important;
+        gap: 8px 16px !important;
+        font-size: 11px !important;
+      }
+      .task-detail-scroll {
+        padding: 12px !important;
+        padding-top: 8px !important;
+      }
+      .task-detail-desc {
+        font-size: 13px !important;
+        padding: 10px !important;
+        margin-bottom: 12px !important;
+      }
+      /* Projects and Dependencies - stack on mobile */
+      .task-detail-scroll > div:first-child {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+        margin-bottom: 16px !important;
+      }
+      /* Subtasks mobile */
+      .subtasks-section {
+        margin-bottom: 12px !important;
+      }
+      .subtasks-header {
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+      }
+      .subtasks-progress {
+        font-size: 11px !important;
+        gap: 6px !important;
+      }
+      .subtasks-progress-bar {
+        width: 80px !important;
+      }
+      .subtask-item {
+        padding: 8px !important;
+        gap: 8px !important;
+      }
+      .subtask-content {
+        font-size: 13px !important;
+      }
+      .subtasks-add {
+        gap: 6px !important;
+      }
+      .subtasks-add input {
+        font-size: 13px !important;
+        padding: 8px !important;
+      }
+      .subtasks-add button {
+        padding: 8px 12px !important;
+        font-size: 12px !important;
+      }
+      /* Tabs */
+      .detail-tabs {
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 8px !important;
+        gap: 4px !important;
+      }
+      .detail-tab {
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+      }
+      /* Activity log */
+      .activity-log {
+        font-size: 12px !important;
+      }
+      .activity-entry {
+        padding: 8px 0 !important;
+      }
+      /* Note input area */
+      #noteInput, #commentInput {
+        width: 100% !important;
+        font-size: 13px !important;
+      }
     }
     
     /* Mobile portrait */
