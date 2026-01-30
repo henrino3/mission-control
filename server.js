@@ -482,6 +482,7 @@ app.post('/api/tasks', requireAuth, (req, res) => {
     blocked = 0,
     blocker_reason = null,
     dependsOn = [],
+    model = null,
   } = req.body;
 
   if (!name) {
@@ -553,6 +554,7 @@ app.patch('/api/tasks/:id', requireAuth, (req, res) => {
     progress_status,
     parent_task_id,
     roadmap_id,
+    model,
     projectIds,
     dependsOn,
     session_id = null,
