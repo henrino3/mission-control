@@ -1797,6 +1797,16 @@
       
       <div class="task-detail-scroll">
       <div class="task-detail-desc" id="detailDesc" style="display: none;"></div>
+
+      <!-- Output -->
+      <div style="margin-bottom: 20px;">
+        <div class="meta-label" style="margin-bottom: 8px;">Output</div>
+        <div id="detailOutputDisplay" style="background: #0f0f0f; border: 1px solid #222; border-radius: 8px; padding: 10px; color: #d1d5db; font-size: 13px; white-space: pre-wrap; word-break: break-word; margin-bottom: 8px;"></div>
+        <div style="display: flex; gap: 8px; align-items: flex-start;">
+          <textarea id="detailOutputInput" class="meta-input" rows="3" style="flex: 1; min-height: 80px;" placeholder="Paste output, logs, or links..."></textarea>
+          <button class="filter-btn secondary" id="detailOutputSave" style="padding: 6px 12px; font-size: 12px;">Save</button>
+        </div>
+      </div>
       
       <!-- Projects & Dependencies (2 columns) -->
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px;">
@@ -2737,6 +2747,18 @@
         descEl.style.display = 'none';
       }
 
+      const outputDisplay = document.getElementById('detailOutputDisplay');
+      const outputInput = document.getElementById('detailOutputInput');
+      const outputText = task.output || '';
+      outputInput.value = outputText;
+      if (outputText) {
+        outputDisplay.innerHTML = linkify(outputText);
+        outputDisplay.style.color = '#d1d5db';
+      } else {
+        outputDisplay.textContent = 'No output yet';
+        outputDisplay.style.color = '#6b7280';
+      }
+
       renderDetailProjects(task);
       renderDependencies(task);
       renderAttachments(task);
@@ -2744,6 +2766,24 @@
       setDetailTab('activity');
       loadComments(taskId);
       document.getElementById('taskDetailOverlay').classList.add('active');
+    }
+
+    function escapeHtml(value) {
+      return (value || '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      })[char]);
+    }
+
+    function linkify(text) {
+      const escaped = escapeHtml(text || '');
+      const urlRegex = /(https?:\/\/[^\s<]+)/g;
+      return escaped.replace(urlRegex, (url) =>
+        `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: #60a5fa;">${url}</a>`
+      );
     }
 
     function closeTaskDetail() {
@@ -3230,6 +3270,10 @@
     document.getElementById('detailTimeSpent').addEventListener('change', (e) => saveSimpleField('time_spent', e.target.value ? Number(e.target.value) : null));
     document.getElementById('detailBlocked').addEventListener('change', (e) => saveSimpleField('blocked', e.target.checked));
     document.getElementById('detailBlockerReason').addEventListener('blur', (e) => saveSimpleField('blocker_reason', e.target.value));
+    document.getElementById('detailOutputSave').addEventListener('click', () => {
+      const value = document.getElementById('detailOutputInput').value;
+      saveSimpleField('output', value);
+    });
     document.getElementById('noteInput').addEventListener('keydown', addNoteShortcut);
     document.getElementById('commentInput').addEventListener('keydown', addCommentShortcut);
 
