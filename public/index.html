@@ -971,8 +971,16 @@
     }
     .task-detail-desc {
       background: #1a1a1a;
-      padding: 16px;
+      padding: 12px;
       border-radius: 8px;
+      border: 1px solid #333;
+      color: #e0e0e0;
+      font-size: 14px;
+      font-family: inherit;
+      width: 100%;
+      min-height: 80px;
+      resize: vertical;
+      line-height: 1.5;
       margin-bottom: 24px;
       color: #ccc;
       font-size: 15px;
@@ -2094,7 +2102,10 @@
       </div>
       
       <div class="task-detail-scroll">
-      <div class="task-detail-desc" id="detailDesc" style="display: none;"></div>
+      <div class="task-detail-desc-wrapper" style="margin-bottom: 16px;">
+        <div class="meta-label" style="margin-bottom: 6px;">Description</div>
+        <textarea id="detailDesc" class="task-detail-desc" placeholder="Add a description..." rows="4"></textarea>
+      </div>
       
       <!-- Projects & Dependencies (2 columns) -->
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 20px;">
@@ -3047,12 +3058,7 @@
       document.getElementById('detailUpdatedAt').textContent = `Updated: ${new Date(task.updated_at).toLocaleString()}`;
 
       const descEl = document.getElementById('detailDesc');
-      if (task.description) {
-        descEl.textContent = task.description;
-        descEl.style.display = 'block';
-      } else {
-        descEl.style.display = 'none';
-      }
+      descEl.value = task.description || '';
 
       renderDetailProjects(task);
       renderDependencies(task);
@@ -3635,6 +3641,7 @@
     document.getElementById('detailTimeSpent').addEventListener('change', (e) => saveSimpleField('time_spent', e.target.value ? Number(e.target.value) : null));
     document.getElementById('detailBlocked').addEventListener('change', (e) => saveSimpleField('blocked', e.target.checked));
     document.getElementById('detailBlockerReason').addEventListener('blur', (e) => saveSimpleField('blocker_reason', e.target.value));
+    document.getElementById('detailDesc').addEventListener('blur', (e) => saveSimpleField('description', e.target.value));
     document.getElementById('subtaskInput').addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
