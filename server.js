@@ -151,6 +151,8 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT,
+    output TEXT,
+    output_type TEXT,
     due_date TEXT,
     column TEXT NOT NULL DEFAULT 'backlog',
     recurring BOOLEAN DEFAULT 0,
@@ -286,6 +288,8 @@ addColumnIfMissing('tasks', 'time_spent', 'REAL DEFAULT 0', 0);
 addColumnIfMissing('tasks', 'blocked', 'INTEGER DEFAULT 0', 0);
 addColumnIfMissing('tasks', 'blocker_reason', 'TEXT');
 addColumnIfMissing('tasks', 'progress_status', "TEXT DEFAULT 'backlog'");
+addColumnIfMissing('tasks', 'output', 'TEXT');
+addColumnIfMissing('tasks', 'output_type', 'TEXT');
 db.exec(`UPDATE tasks SET due_date = COALESCE(due_date, date(created_at)) WHERE due_date IS NULL OR due_date = ''`);
 
 const activityColumns = db.prepare('PRAGMA table_info(activity)').all().map(column => column.name);
@@ -540,9 +544,12 @@ app.patch('/api/tasks/:id', requireAuth, (req, res) => {
     time_spent,
     blocked,
     blocker_reason,
+    output,
+    output_type,
     progress_status,
     parent_task_id,
     roadmap_id,
+    model,
     projectIds,
     dependsOn,
     session_id = null,
@@ -613,6 +620,12 @@ app.patch('/api/tasks/:id', requireAuth, (req, res) => {
   }
   if (blocker_reason !== undefined) {
     pushUpdate('blocker_reason', blocker_reason, 'blocker reason updated');
+  }
+  if (output !== undefined) {
+    pushUpdate('output', output, 'output updated');
+  }
+  if (output_type !== undefined) {
+    pushUpdate('output_type', output_type, 'output type updated');
   }
   if (progress_status !== undefined) {
     pushUpdate('progress_status', progress_status, 'progress updated');
