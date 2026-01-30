@@ -1409,29 +1409,39 @@
         max-width: 100% !important;
         border-left: none !important;
         border-radius: 0 !important;
+        flex-direction: column !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
       }
+      /* Make header scroll with content on mobile */
       .task-detail-header {
         padding: 12px !important;
         position: relative;
         background: #111;
         flex-shrink: 0 !important;
       }
-      /* Move close button to float over title on mobile */
+      /* Fixed close button in corner */
       .task-detail-header .close-btn {
-        position: absolute !important;
-        top: 16px !important;
+        position: fixed !important;
+        top: 12px !important;
         right: 12px !important;
         font-size: 28px !important;
-        z-index: 20;
+        z-index: 100;
         padding: 4px;
         margin: 0 !important;
-        background: rgba(0,0,0,0.5) !important;
+        background: rgba(17,17,17,0.9) !important;
         border-radius: 50%;
-        width: 36px;
-        height: 36px;
+        width: 40px;
+        height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
+        border: 1px solid #333;
+      }
+      /* Remove separate scroll area - whole modal scrolls */
+      .task-detail-scroll {
+        flex: none !important;
+        overflow: visible !important;
       }
       /* Header top row with title and action buttons */
       .task-detail-header > div:first-child {
