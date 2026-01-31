@@ -372,6 +372,7 @@
       color: #888;
       max-height: 280px;
       overflow-y: auto;
+      overflow-x: hidden;
       scrollbar-width: thin;
       scrollbar-color: #333 transparent;
     }
@@ -417,6 +418,7 @@
     .column .tasks {
       flex: 1;
       overflow-y: auto;
+      overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: thin;
       scrollbar-color: #333 transparent;
@@ -880,6 +882,7 @@
     .task-detail-scroll {
       flex: 1;
       overflow-y: auto;
+      overflow-x: hidden;
       padding: 32px;
       padding-top: 0;
     }
@@ -1023,6 +1026,7 @@
     .activity-log {
       flex: 1;
       overflow-y: auto;
+      overflow-x: hidden;
       margin-bottom: 20px;
     }
     .activity-header {
@@ -1067,6 +1071,9 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      overflow-x: hidden;
     }
     .add-note-section {
       border-top: 1px solid #222;
@@ -1091,6 +1098,7 @@
     .comments-list {
       flex: 1;
       overflow-y: auto;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -1101,6 +1109,9 @@
       border: 1px solid #222;
       border-radius: 8px;
       padding: 12px 14px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      overflow-x: hidden;
     }
     .comment-meta {
       font-size: 11px;
@@ -2127,6 +2138,16 @@
       <div class="task-detail-desc-wrapper" style="margin-bottom: 16px;">
         <div class="meta-label" style="margin-bottom: 6px;">Description</div>
         <textarea id="detailDesc" class="task-detail-desc" placeholder="Add a description..." rows="4"></textarea>
+      </div>
+
+      <!-- Output -->
+      <div style="margin-bottom: 20px;">
+        <div class="meta-label" style="margin-bottom: 8px;">Output</div>
+        <div id="detailOutputDisplay" style="background: #0f0f0f; border: 1px solid #222; border-radius: 8px; padding: 10px; color: #d1d5db; font-size: 13px; white-space: pre-wrap; word-break: break-word; margin-bottom: 8px;"></div>
+        <div style="display: flex; gap: 8px; align-items: flex-start;">
+          <textarea id="detailOutputInput" class="meta-input" rows="3" style="flex: 1; min-height: 80px;" placeholder="Paste output, logs, or links..."></textarea>
+          <button class="filter-btn secondary" id="detailOutputSave" style="padding: 6px 12px; font-size: 12px;">Save</button>
+        </div>
       </div>
       
       <!-- Projects & Dependencies (2 columns) -->
@@ -3166,6 +3187,19 @@
       const descEl = document.getElementById('detailDesc');
       descEl.value = task.description || '';
 
+      // Output field
+      const outputDisplay = document.getElementById('detailOutputDisplay');
+      const outputInput = document.getElementById('detailOutputInput');
+      const outputText = task.output || '';
+      outputInput.value = outputText;
+      if (outputText) {
+        outputDisplay.innerHTML = linkifyOutput(outputText);
+        outputDisplay.style.color = '#d1d5db';
+      } else {
+        outputDisplay.textContent = 'No output yet';
+        outputDisplay.style.color = '#6b7280';
+      }
+
       renderDetailProjects(task);
       renderDependencies(task);
       renderAttachments(task);
@@ -3174,6 +3208,24 @@
       setDetailTab('activity');
       loadComments(taskId);
       document.getElementById('taskDetailOverlay').classList.add('active');
+    }
+
+    function escapeHtmlOutput(value) {
+      return (value || '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      })[char]);
+    }
+
+    function linkifyOutput(text) {
+      const escaped = escapeHtmlOutput(text || '');
+      const urlRegex = /(https?:\/\/[^\s<]+)/g;
+      return escaped.replace(urlRegex, (url) =>
+        `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: #60a5fa;">${url}</a>`
+      );
     }
 
     function closeTaskDetail() {
@@ -3747,6 +3799,19 @@
     document.getElementById('detailTimeSpent').addEventListener('change', (e) => saveSimpleField('time_spent', e.target.value ? Number(e.target.value) : null));
     document.getElementById('detailBlocked').addEventListener('change', (e) => saveSimpleField('blocked', e.target.checked));
     document.getElementById('detailBlockerReason').addEventListener('blur', (e) => saveSimpleField('blocker_reason', e.target.value));
+    document.getElementById('detailOutputSave').addEventListener('click', () => {
+      const value = document.getElementById('detailOutputInput').value;
+      saveSimpleField('output', value);
+      // Update display
+      const outputDisplay = document.getElementById('detailOutputDisplay');
+      if (value) {
+        outputDisplay.innerHTML = linkifyOutput(value);
+        outputDisplay.style.color = '#d1d5db';
+      } else {
+        outputDisplay.textContent = 'No output yet';
+        outputDisplay.style.color = '#6b7280';
+      }
+    });
     document.getElementById('detailDesc').addEventListener('blur', (e) => saveSimpleField('description', e.target.value));
     document.getElementById('subtaskInput').addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
