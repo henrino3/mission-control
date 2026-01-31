@@ -151,6 +151,8 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT,
+    output TEXT,
+    output_type TEXT,
     due_date TEXT,
     column TEXT NOT NULL DEFAULT 'backlog',
     recurring BOOLEAN DEFAULT 0,

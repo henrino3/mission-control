@@ -372,22 +372,6 @@
       color: #888;
       max-height: 280px;
       overflow-y: auto;
-      overflow-x: hidden;
-      scrollbar-width: thin;
-      scrollbar-color: #333 transparent;
-    }
-    .agent-activity-log::-webkit-scrollbar {
-      width: 6px;
-    }
-    .agent-activity-log::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .agent-activity-log::-webkit-scrollbar-thumb {
-      background: #333;
-      border-radius: 3px;
-    }
-    .agent-activity-log::-webkit-scrollbar-thumb:hover {
-      background: #444;
     }
     .agent-log-entry {
       padding: 8px 0;
@@ -408,7 +392,7 @@
       background: #0d0d0d;
       border: 1px solid #222;
       border-radius: 12px;
-      padding: 12px 6px;
+      padding: 16px;
       min-height: 400px;
       max-height: 70vh;
       min-width: 280px;
@@ -418,26 +402,7 @@
     .column .tasks {
       flex: 1;
       overflow-y: auto;
-      overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
-      scrollbar-width: thin;
-      scrollbar-color: #333 transparent;
-    }
-    .column .tasks::-webkit-scrollbar {
-      width: 6px;
-    }
-    .column .tasks::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .column .tasks::-webkit-scrollbar-thumb {
-      background: #333;
-      border-radius: 3px;
-    }
-    .column .tasks::-webkit-scrollbar-thumb:hover {
-      background: #444;
-    }
-    .task {
-      margin: 0 2px 10px 2px;
     }
     
     /* Column headers inside each column */
@@ -852,12 +817,9 @@
     .settings-row label {
       color: #ddd;
       font-size: 14px;
-      white-space: nowrap;
-      margin-right: 12px;
     }
     .settings-row input[type="checkbox"] {
-      transform: scale(1.2);
-      flex-shrink: 0;
+      transform: scale(1.1);
     }
     
     /* Task detail panel - Asana style 2/3 width */
@@ -882,7 +844,6 @@
     .task-detail-scroll {
       flex: 1;
       overflow-y: auto;
-      overflow-x: hidden;
       padding: 32px;
       padding-top: 0;
     }
@@ -977,16 +938,8 @@
     }
     .task-detail-desc {
       background: #1a1a1a;
-      padding: 12px;
+      padding: 16px;
       border-radius: 8px;
-      border: 1px solid #333;
-      color: #e0e0e0;
-      font-size: 14px;
-      font-family: inherit;
-      width: 100%;
-      min-height: 80px;
-      resize: vertical;
-      line-height: 1.5;
       margin-bottom: 24px;
       color: #ccc;
       font-size: 15px;
@@ -1026,7 +979,6 @@
     .activity-log {
       flex: 1;
       overflow-y: auto;
-      overflow-x: hidden;
       margin-bottom: 20px;
     }
     .activity-header {
@@ -1071,9 +1023,6 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      overflow-x: hidden;
     }
     .add-note-section {
       border-top: 1px solid #222;
@@ -1098,7 +1047,6 @@
     .comments-list {
       flex: 1;
       overflow-y: auto;
-      overflow-x: hidden;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -1109,9 +1057,6 @@
       border: 1px solid #222;
       border-radius: 8px;
       padding: 12px 14px;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      overflow-x: hidden;
     }
     .comment-meta {
       font-size: 11px;
@@ -1153,91 +1098,6 @@
     .comment-reply button {
       padding: 8px 12px;
       font-size: 12px;
-    }
-
-    .subtasks-section {
-      margin-bottom: 24px;
-    }
-    .subtasks-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-    .subtasks-progress {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 12px;
-      color: #6b7280;
-    }
-    .subtasks-progress-bar {
-      width: 140px;
-      height: 6px;
-      background: #1f1f1f;
-      border-radius: 999px;
-      overflow: hidden;
-      border: 1px solid #222;
-    }
-    .subtasks-progress-fill {
-      height: 100%;
-      width: 0%;
-      background: #5b5eef;
-      transition: width 0.2s ease;
-    }
-    .subtasks-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-    .subtask-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: #141414;
-      border: 1px solid #222;
-      border-radius: 8px;
-      padding: 8px 10px;
-    }
-    .subtask-item.completed {
-      opacity: 0.6;
-    }
-    .subtask-item.completed .subtask-content {
-      text-decoration: line-through;
-      color: #9ca3af;
-    }
-    .subtask-checkbox {
-      accent-color: #5b5eef;
-    }
-    .subtask-content {
-      flex: 1;
-      font-size: 14px;
-      color: #e5e7eb;
-    }
-    .subtask-delete {
-      background: transparent;
-      border: none;
-      color: #555;
-      font-size: 16px;
-      cursor: pointer;
-      line-height: 1;
-    }
-    .subtask-delete:hover {
-      color: #ef4444;
-    }
-    .subtasks-add {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .subtasks-add input {
-      flex: 1;
-    }
-    .subtask-empty {
-      color: #6b7280;
-      font-size: 13px;
-      padding: 6px 4px;
     }
     
     /* ========== MOBILE RESPONSIVE ========== */
@@ -1342,38 +1202,24 @@
         font-size: 13px;
       }
       
-      /* Agents - vertical stack with scroll, fit screen */
+      /* Agents - vertical stack with scroll */
       .agents-board {
-        padding: 12px;
-        overflow-x: hidden;
+        padding: 16px;
       }
       .agents-grid {
         grid-template-columns: 1fr;
         gap: 16px;
-        width: 100%;
       }
       .agent-lane {
         min-height: auto;
         max-height: 50vh;
         display: flex;
         flex-direction: column;
-        width: 100%;
-        overflow-x: hidden;
-      }
-      .agent-current-task {
-        word-wrap: break-word;
-        overflow-wrap: break-word;
       }
       .agent-activity-log {
         flex: 1;
         overflow-y: auto;
-        overflow-x: hidden;
         max-height: none;
-        word-wrap: break-word;
-      }
-      .agent-log-entry {
-        word-wrap: break-word;
-        overflow-wrap: break-word;
       }
       
       /* Board columns - almost full width on mobile */
@@ -1415,182 +1261,6 @@
       }
       .modal-header h3 {
         font-size: 16px;
-      }
-      
-      /* Task Detail Panel - Full Screen on Mobile */
-      #taskDetailOverlay .task-detail {
-        width: 100% !important;
-        max-width: 100% !important;
-        border-left: none !important;
-        border-radius: 0 !important;
-        flex-direction: column !important;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
-      }
-      /* Make header scroll with content on mobile */
-      .task-detail-header {
-        padding: 12px !important;
-        position: relative;
-        background: #111;
-        flex-shrink: 0 !important;
-      }
-      /* Fixed close button in corner */
-      .task-detail-header .close-btn {
-        position: fixed !important;
-        top: 12px !important;
-        right: 12px !important;
-        font-size: 28px !important;
-        z-index: 100;
-        padding: 4px;
-        margin: 0 !important;
-        background: rgba(17,17,17,0.9) !important;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #333;
-      }
-      /* Remove separate scroll area - whole modal scrolls */
-      .task-detail-scroll {
-        flex: none !important;
-        overflow: visible !important;
-      }
-      /* Header top row with title and action buttons */
-      .task-detail-header > div:first-child {
-        flex-direction: column !important;
-        align-items: stretch !important;
-        gap: 10px !important;
-        margin-bottom: 12px !important;
-      }
-      .detail-title-input {
-        font-size: 16px !important;
-        width: 100% !important;
-        margin-right: 0 !important;
-        padding-right: 40px !important;
-      }
-      /* Action buttons - wrap on their own row */
-      .task-detail-header > div:first-child > div {
-        flex-wrap: wrap !important;
-        gap: 6px !important;
-      }
-      .task-detail-header .filter-btn {
-        padding: 6px 10px !important;
-        font-size: 11px !important;
-      }
-      /* Row 1: Core fields - 2 columns on mobile, Model spans full width */
-      .task-detail-header > div:nth-child(2) {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 10px !important;
-        margin-bottom: 12px !important;
-      }
-      .task-detail-header > div:nth-child(2) > div:nth-child(5) {
-        grid-column: span 2 !important;
-      }
-      /* Hide Model label on mobile - just show dropdown */
-      .task-detail-header > div:nth-child(2) > div:nth-child(5) .meta-label {
-        display: none !important;
-      }
-      .task-detail-header > div:nth-child(2) > div:nth-child(5) select {
-        margin-top: 0 !important;
-      }
-      /* Row 2: Time tracking - stack vertically */
-      .task-detail-header > div:nth-child(3) {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 10px !important;
-        margin-bottom: 12px !important;
-      }
-      /* Make blocked section full width */
-      .task-detail-header > div:nth-child(3) > div:last-child {
-        grid-column: span 2 !important;
-      }
-      .meta-label {
-        font-size: 10px !important;
-      }
-      .meta-select, .meta-input {
-        font-size: 12px !important;
-        padding: 6px 8px !important;
-      }
-      /* Row 3: Metadata - wrap */
-      .task-detail-header > div:nth-child(4) {
-        flex-wrap: wrap !important;
-        gap: 8px 16px !important;
-        font-size: 11px !important;
-      }
-      .task-detail-scroll {
-        padding: 12px !important;
-        padding-top: 8px !important;
-      }
-      .task-detail-desc {
-        font-size: 13px !important;
-        padding: 10px !important;
-        margin-bottom: 12px !important;
-      }
-      /* Projects and Dependencies - stack on mobile */
-      .task-detail-scroll > div:first-child {
-        grid-template-columns: 1fr !important;
-        gap: 16px !important;
-        margin-bottom: 16px !important;
-      }
-      /* Subtasks mobile */
-      .subtasks-section {
-        margin-bottom: 12px !important;
-      }
-      .subtasks-header {
-        flex-wrap: wrap !important;
-        gap: 8px !important;
-      }
-      .subtasks-progress {
-        font-size: 11px !important;
-        gap: 6px !important;
-      }
-      .subtasks-progress-bar {
-        width: 80px !important;
-      }
-      .subtask-item {
-        padding: 8px !important;
-        gap: 8px !important;
-      }
-      .subtask-content {
-        font-size: 13px !important;
-      }
-      .subtasks-add {
-        gap: 6px !important;
-      }
-      .subtasks-add input {
-        font-size: 13px !important;
-        padding: 8px !important;
-      }
-      .subtasks-add button {
-        padding: 8px 12px !important;
-        font-size: 12px !important;
-      }
-      /* Tabs */
-      .detail-tabs {
-        flex-wrap: nowrap !important;
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: 8px !important;
-        gap: 4px !important;
-      }
-      .detail-tab {
-        white-space: nowrap !important;
-        flex-shrink: 0 !important;
-        padding: 6px 12px !important;
-        font-size: 12px !important;
-      }
-      /* Activity log */
-      .activity-log {
-        font-size: 12px !important;
-      }
-      .activity-entry {
-        padding: 8px 0 !important;
-      }
-      /* Note input area */
-      #noteInput, #commentInput {
-        width: 100% !important;
-        font-size: 13px !important;
       }
     }
     
@@ -1846,15 +1516,6 @@
         <div id="metricsList" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; font-size: 13px; color: #e5e7eb;"></div>
       </div>
     </div>
-  </div>
-
-  <!-- Daily Timeline View -->
-  <div id="dailyTimelineView" style="display: none; padding: 16px 30px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-      <h3 style="margin: 0; font-size: 18px;">📅 Next 7 Days</h3>
-      <button class="filter-btn secondary" onclick="toggleDailyView()" style="font-size: 12px;">← Back to Kanban</button>
-    </div>
-    <div id="dailyTimelineContent" style="display: flex; flex-direction: column; gap: 16px;"></div>
   </div>
 
   <div style="padding: 0 30px; margin-bottom: 8px;">
@@ -2135,10 +1796,7 @@
       </div>
       
       <div class="task-detail-scroll">
-      <div class="task-detail-desc-wrapper" style="margin-bottom: 16px;">
-        <div class="meta-label" style="margin-bottom: 6px;">Description</div>
-        <textarea id="detailDesc" class="task-detail-desc" placeholder="Add a description..." rows="4"></textarea>
-      </div>
+      <div class="task-detail-desc" id="detailDesc" style="display: none;"></div>
 
       <!-- Output -->
       <div style="margin-bottom: 20px;">
@@ -2167,24 +1825,6 @@
             <input type="text" id="detailDependenciesInput" class="meta-input" placeholder="Task IDs (e.g. 1, 2, 3)" style="width: 180px;" />
             <button class="filter-btn secondary" style="padding: 6px 12px; font-size: 12px;" onclick="saveDependencies()">Save</button>
           </div>
-        </div>
-      </div>
-
-      <!-- Subtasks -->
-      <div class="subtasks-section">
-        <div class="subtasks-header">
-          <div class="meta-label">Subtasks</div>
-          <div class="subtasks-progress">
-            <div class="subtasks-progress-bar">
-              <div class="subtasks-progress-fill" id="subtasksProgressFill"></div>
-            </div>
-            <span id="subtasksProgress">0/0 complete</span>
-          </div>
-        </div>
-        <div id="subtasksList" class="subtasks-list"></div>
-        <div class="subtasks-add">
-          <input type="text" id="subtaskInput" class="meta-input" placeholder="Add a subtask..." />
-          <button class="filter-btn secondary" style="padding: 6px 12px; font-size: 12px;" onclick="addSubtask()">Add</button>
         </div>
       </div>
       
@@ -2269,7 +1909,6 @@
     let roadmaps = [];
     let recentActivity = [];
     let currentTaskId = null;
-    let currentSubtasks = [];
     let currentBoard = 'ops';
     let currentDetailTab = 'activity';
     let currentActivityView = 'human';
@@ -2632,91 +2271,7 @@
     function toggleDailyView() {
       dailyView = !dailyView;
       document.getElementById('dailyViewBtn').classList.toggle('active', dailyView);
-      document.getElementById('dailyTimelineView').style.display = dailyView ? 'block' : 'none';
-      document.getElementById('kanbanWrapper').style.display = dailyView ? 'none' : 'block';
-      document.getElementById('kanbanToggle').parentElement.style.display = dailyView ? 'none' : 'block';
-      document.getElementById('insightsRow').parentElement.style.display = dailyView ? 'none' : 'block';
-      if (dailyView) renderDailyTimeline();
-    }
-
-    function renderDailyTimeline() {
-      const container = document.getElementById('dailyTimelineContent');
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      
-      // Get next 7 days
-      const days = [];
-      for (let i = 0; i < 7; i++) {
-        const d = new Date(today);
-        d.setDate(d.getDate() + i);
-        days.push(d.toISOString().slice(0, 10));
-      }
-      
-      // Group tasks by date
-      const tasksByDate = {};
-      const overdue = [];
-      const todayStr = today.toISOString().slice(0, 10);
-      
-      allTasks.filter(t => t.column !== 'done' && t.column !== 'archive' && !t.archived).forEach(t => {
-        const due = (t.due_date || '').slice(0, 10);
-        if (!due) return;
-        if (due < todayStr) {
-          overdue.push(t);
-        } else if (days.includes(due)) {
-          if (!tasksByDate[due]) tasksByDate[due] = [];
-          tasksByDate[due].push(t);
-        }
-      });
-      
-      // Render
-      const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      
-      let html = '';
-      
-      // Overdue section
-      if (overdue.length) {
-        html += `<div style="background: rgba(239,68,68,0.1); border: 1px solid #ef4444; border-radius: 12px; padding: 16px;">
-          <div style="font-weight: 600; color: #ef4444; margin-bottom: 12px;">⚠️ Overdue (${overdue.length})</div>
-          <div style="display: flex; flex-direction: column; gap: 8px;">
-            ${overdue.map(t => `<div onclick="openTaskDetail(${t.id})" style="cursor: pointer; background: #1a1a1a; padding: 10px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
-              <span style="color: #fff;">${escapeHtml(t.name)}</span>
-              <span style="font-size: 12px; color: #ef4444;">${formatDate(t.due_date)}</span>
-            </div>`).join('')}
-          </div>
-        </div>`;
-      }
-      
-      // Each day
-      days.forEach((dateStr, i) => {
-        const d = new Date(dateStr + 'T12:00:00');
-        const dayName = dayNames[d.getDay()];
-        const monthName = monthNames[d.getMonth()];
-        const dayNum = d.getDate();
-        const isToday = i === 0;
-        const tasks = tasksByDate[dateStr] || [];
-        
-        const bgColor = isToday ? 'rgba(91,94,239,0.1)' : '#0d0d0d';
-        const borderColor = isToday ? '#5b5eef' : '#222';
-        
-        html += `<div style="background: ${bgColor}; border: 1px solid ${borderColor}; border-radius: 12px; padding: 16px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: ${tasks.length ? '12px' : '0'};">
-            <div>
-              <span style="font-weight: 600; color: ${isToday ? '#5b5eef' : '#fff'};">${isToday ? 'Today' : dayName}</span>
-              <span style="color: #666; margin-left: 8px;">${monthName} ${dayNum}</span>
-            </div>
-            <span style="font-size: 12px; color: #666;">${tasks.length} task${tasks.length !== 1 ? 's' : ''}</span>
-          </div>
-          ${tasks.length ? `<div style="display: flex; flex-direction: column; gap: 8px;">
-            ${tasks.map(t => `<div onclick="openTaskDetail(${t.id})" style="cursor: pointer; background: #1a1a1a; padding: 10px 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
-              <span style="color: #fff;">${escapeHtml(t.name)}</span>
-              <span style="font-size: 11px; padding: 2px 8px; border-radius: 10px; background: ${t.priority === 'P0' ? '#ef4444' : t.priority === 'P1' ? '#f97316' : '#333'}; color: ${t.priority === 'P0' || t.priority === 'P1' ? '#fff' : '#999'};">${t.priority || 'P2'}</span>
-            </div>`).join('')}
-          </div>` : ''}
-        </div>`;
-      });
-      
-      container.innerHTML = html;
+      renderTasks();
     }
 
     function setBoard(board, updateHash = true) {
@@ -3185,15 +2740,19 @@
       document.getElementById('detailUpdatedAt').textContent = `Updated: ${new Date(task.updated_at).toLocaleString()}`;
 
       const descEl = document.getElementById('detailDesc');
-      descEl.value = task.description || '';
+      if (task.description) {
+        descEl.textContent = task.description;
+        descEl.style.display = 'block';
+      } else {
+        descEl.style.display = 'none';
+      }
 
-      // Output field
       const outputDisplay = document.getElementById('detailOutputDisplay');
       const outputInput = document.getElementById('detailOutputInput');
       const outputText = task.output || '';
       outputInput.value = outputText;
       if (outputText) {
-        outputDisplay.innerHTML = linkifyOutput(outputText);
+        outputDisplay.innerHTML = linkify(outputText);
         outputDisplay.style.color = '#d1d5db';
       } else {
         outputDisplay.textContent = 'No output yet';
@@ -3203,14 +2762,13 @@
       renderDetailProjects(task);
       renderDependencies(task);
       renderAttachments(task);
-      loadSubtasks(taskId);
       setActivityView(currentActivityView);
       setDetailTab('activity');
       loadComments(taskId);
       document.getElementById('taskDetailOverlay').classList.add('active');
     }
 
-    function escapeHtmlOutput(value) {
+    function escapeHtml(value) {
       return (value || '').replace(/[&<>"']/g, (char) => ({
         '&': '&amp;',
         '<': '&lt;',
@@ -3220,8 +2778,8 @@
       })[char]);
     }
 
-    function linkifyOutput(text) {
-      const escaped = escapeHtmlOutput(text || '');
+    function linkify(text) {
+      const escaped = escapeHtml(text || '');
       const urlRegex = /(https?:\/\/[^\s<]+)/g;
       return escaped.replace(urlRegex, (url) =>
         `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: #60a5fa;">${url}</a>`
@@ -3232,9 +2790,6 @@
       document.getElementById('taskDetailOverlay').classList.remove('active');
       document.getElementById('noteInput').value = '';
       document.getElementById('commentInput').value = '';
-      document.getElementById('subtaskInput').value = '';
-      currentSubtasks = [];
-      renderSubtasks();
       currentTaskId = null;
     }
 
@@ -3339,90 +2894,6 @@
         link.style.color = '#60a5fa';
         container.appendChild(link);
       });
-    }
-
-    async function loadSubtasks(taskId) {
-      if (!taskId) return;
-      try {
-        currentSubtasks = await apiFetch(`/api/tasks/${taskId}/subtasks`);
-      } catch (err) {
-        console.error('Failed to load subtasks', err);
-        currentSubtasks = [];
-      }
-      renderSubtasks();
-    }
-
-    function renderSubtasks() {
-      const list = document.getElementById('subtasksList');
-      const progressText = document.getElementById('subtasksProgress');
-      const progressFill = document.getElementById('subtasksProgressFill');
-      list.innerHTML = '';
-
-      const total = currentSubtasks.length;
-      const completed = currentSubtasks.filter(s => s.completed).length;
-      const percent = total ? Math.round((completed / total) * 100) : 0;
-
-      progressText.textContent = total ? `${completed}/${total} complete` : '0/0 complete';
-      progressFill.style.width = `${percent}%`;
-
-      if (!total) {
-        list.innerHTML = '<div class="subtask-empty">No subtasks yet</div>';
-        return;
-      }
-
-      currentSubtasks.forEach(subtask => {
-        const row = document.createElement('div');
-        row.className = `subtask-item ${subtask.completed ? 'completed' : ''}`.trim();
-
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.className = 'subtask-checkbox';
-        checkbox.checked = !!subtask.completed;
-        checkbox.addEventListener('change', () => toggleSubtask(subtask.id, checkbox.checked));
-
-        const content = document.createElement('span');
-        content.className = 'subtask-content';
-        content.textContent = subtask.content || '';
-
-        const del = document.createElement('button');
-        del.className = 'subtask-delete';
-        del.textContent = '×';
-        del.title = 'Delete subtask';
-        del.addEventListener('click', () => deleteSubtask(subtask.id));
-
-        row.appendChild(checkbox);
-        row.appendChild(content);
-        row.appendChild(del);
-        list.appendChild(row);
-      });
-    }
-
-    async function addSubtask() {
-      if (!currentTaskId) return;
-      const input = document.getElementById('subtaskInput');
-      const content = input.value.trim();
-      if (!content) return;
-      await apiFetch(`/api/tasks/${currentTaskId}/subtasks`, {
-        method: 'POST',
-        body: JSON.stringify({ content, session_id: sessionId })
-      });
-      input.value = '';
-      await loadSubtasks(currentTaskId);
-    }
-
-    async function toggleSubtask(id, completed) {
-      if (!id) return;
-      await apiFetch(`/api/subtasks/${id}`, {
-        method: 'PATCH',
-        body: JSON.stringify({ completed, session_id: sessionId })
-      });
-      await loadSubtasks(currentTaskId);
-    }
-
-    async function deleteSubtask(id) {
-      if (!id) return;
-      await apiFetch(`/api/subtasks/${id}`, { method: 'DELETE' });
-      await loadSubtasks(currentTaskId);
     }
 
     async function addAttachment() {
@@ -3802,22 +3273,6 @@
     document.getElementById('detailOutputSave').addEventListener('click', () => {
       const value = document.getElementById('detailOutputInput').value;
       saveSimpleField('output', value);
-      // Update display
-      const outputDisplay = document.getElementById('detailOutputDisplay');
-      if (value) {
-        outputDisplay.innerHTML = linkifyOutput(value);
-        outputDisplay.style.color = '#d1d5db';
-      } else {
-        outputDisplay.textContent = 'No output yet';
-        outputDisplay.style.color = '#6b7280';
-      }
-    });
-    document.getElementById('detailDesc').addEventListener('blur', (e) => saveSimpleField('description', e.target.value));
-    document.getElementById('subtaskInput').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        addSubtask();
-      }
     });
     document.getElementById('noteInput').addEventListener('keydown', addNoteShortcut);
     document.getElementById('commentInput').addEventListener('keydown', addCommentShortcut);
@@ -3846,7 +3301,6 @@
       await loadRecentActivity();
       setInterval(loadTasks, 5000);
       setInterval(loadRecentActivity, 8000);
-      setInterval(refreshAgentActivity, 30000); // Auto-refresh agents every 30s
     }
 
     initSettings();
